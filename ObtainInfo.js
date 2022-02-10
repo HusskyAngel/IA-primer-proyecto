@@ -26,7 +26,10 @@ class ObtainInfo{
 		this.data.forEach(element => 
 			{
 				if(element[1]!=',' && element.length != 0) {
-					this.map.push(element);
+					this.map.push([]);
+					for( let i in element){
+					this.map[this.map.length - 1].push(element[i])
+					}
 				}
 				else if (element[1]==',' && !playerPosFound){
 					playerPosFound=true;

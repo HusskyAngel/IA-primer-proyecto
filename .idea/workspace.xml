@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="60c7404a-0372-47f9-8a4d-8dcd68b031b8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ProfundizacionIt.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ObtainInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/ObtainInfo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProfundizacionIt.js" beforeDir="false" afterPath="$PROJECT_DIR$/ProfundizacionIt.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maintest.js" beforeDir="false" afterPath="$PROJECT_DIR$/maintest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +20,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -59,7 +64,7 @@
       <option name="presentableId" value="Default" />
       <updated>1644072855145</updated>
       <workItem from="1644072857390" duration="1278000" />
-      <workItem from="1644522915887" duration="4620000" />
+      <workItem from="1644522915887" duration="6486000" />
     </task>
     <servers />
   </component>
@@ -71,7 +76,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="JFB" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>

@@ -1,7 +1,7 @@
 //const fs = require('fs')
 const ObtainInfo = require('./ObtainInfo')
 const ProfundizacionIt = require('./ProfundizacionIt')
-const test = require('./test')
+
 
 
 info= new ObtainInfo("nivel2.txt")

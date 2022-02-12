@@ -16,9 +16,10 @@ function ppos( pos){
 }
 function pbox(pos){
 	let aux=[];
-	for (x in pos){
-		aux.push([x[0],x[2]]);
+	for (x of pos){
+		aux.push([parseInt(x[0]),parseInt(x[2])]);
 	}
+	console.log(aux);
 	return aux;
 }
 
@@ -30,7 +31,7 @@ class BusquedaAmplitud{
 		this.deep=deep;
 		let info=new ObtainInfo(level);
 		this.init_map=info.map;
-		this.init_node= new Array( new CurrentPos(ppos(info.playerPos),pbox(info.boxesPos),"father"));
+		this.init_node= new Array( new CurrentPos(ppos(info.playerPos),pbox(info.boxesPos),0,"father"));
 		this.nodes=[this.init_node];
 	}
 
@@ -117,7 +118,7 @@ class BusquedaAmplitud{
 		let len=this.nodes[this.nodes.length -1].length;
 		for (let w=0; w<len ;w++){
 			aux=aux.concat(this.generateChilds(this.nodes[len-1][w],father_idc));	
-			console.log(len);
+			console.log(aux);
 			father_idc++;
 		}
 		this.nodes=this.nodes.concat([aux]);
@@ -134,20 +135,23 @@ class BusquedaAmplitud{
 
 	//opera todas las funciones ateriores para hallar la solución 
 	findSolution(){
-		let solution="";
-		let aux=0;
+		var  solution="";
+		var  aux=0;
 		for(let i=0; i<this.deep; i++){
-			console.log("expandiendo nodos en la profundida "+i);
+			console.log("expandiendo nodos en la profundidad "+i);
 			this.expandNodes();
-			for (let x in this.nodes[this.nodes.length -2]){ 
+			let issolution=false;
+			let len=this.nodes.length;
+			for (x of this.nodes[len -2]){ 
 				if(this.isSolution(x)){
-					solution+=x.direction;
-					aux+=x.father_id;
+					solution=solution.concat(x.direction);
+					aux=x.father_id;
+					issolution=true;
 					console.log("solución encontrada \n")
 					break;
 				}
 			}
-			if (solution.length!=0)
+			if (issolution)
 				break;
 			console.log("profundidad "+ i);	
 		}
@@ -155,9 +159,9 @@ class BusquedaAmplitud{
 			console.log("solucion no encontrada en la profundidad "+ this.deep);
 			return "";
 		}
-		for(let a=nodes.length-2; a >= 0; a--){
+		for(let a=this.nodes.length-2; a >= 1; a--){
 			aux=this.nodes[a][aux].father_id;	
-			solutions= this.nodes[a][aux].direction +solutions;
+			solution= this.nodes[a][aux].direction +solution;
 		}
 		return solution;
 	}

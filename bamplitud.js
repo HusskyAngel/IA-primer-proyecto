@@ -159,7 +159,7 @@ class BusquedaAmplitud{
 			console.log("profundidad "+ i);	
 		}
 		if (solution.length==0){
-			console.log("solucion no encontrada en la profundidad "+ is.deep);
+			console.log("solucion no encontrada en la profundidad "+ this.deep);
 			return "";
 		}
 		for(let a=nodes.length-2; a >= 0; a--){

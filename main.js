@@ -3,7 +3,7 @@ const ObtainInfo = require('./ObtainInfo')
 const BusquedaAmplitud = require('./bamplitud')
 
 
-let solution=new BusquedaAmplitud("nivel1.txt",12);
+let solution=new BusquedaAmplitud("nivel1.txt",12); 
 let text_solution=solution.findSolution();
 console.log(text_solution);
 

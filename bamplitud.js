@@ -19,7 +19,6 @@ function pbox(pos){
 	for (x of pos){
 		aux.push([parseInt(x[0]),parseInt(x[2])]);
 	}
-	console.log(aux);
 	return aux;
 }
 
@@ -37,7 +36,7 @@ class BusquedaAmplitud{
 
 	//hay caja en la posicion yx?
 	isThereBox(node,posy,posx){
-		for(x in node.boxes_pos){
+		for(x of node.boxes_pos){
 			if(x[0]==posy && x[1]==posx)		
 				return true;
 		}
@@ -64,7 +63,7 @@ class BusquedaAmplitud{
 			if(this.init_map[pushboxpos[0]][pushboxpos[1]]=="W")//hay muro donde voy a empujar la caja
 				return [];
 			let aux_count=0;
-			for(x in node.boxes_pos){//hay otra caja donde voy a empujar la caja 
+			for(x of node.boxes_pos){//hay otra caja donde voy a empujar la caja 
 				if (x[0]==pushboxpos[0] && x[1]==pushboxpos[1] && aux_count==0)
 					aux_count++;
 				else if (x[0]==pushboxpos[0] && x[1]==pushboxpos[1] && aux_count>1)
@@ -72,7 +71,7 @@ class BusquedaAmplitud{
 			}
 			//correr la caja
 			let boxpos=[];
-			for (x in node.boxes_pos){
+			for (x of node.boxes_pos){
 				if (x[0]!=posy && x[1]!=posx)
 					boxpos.push(x);
 			}
@@ -122,46 +121,59 @@ class BusquedaAmplitud{
 			father_idc++;
 		}
 		this.nodes=this.nodes.concat([aux]);
+		for (x of aux){
+			console.log("========");
+			console.log(x.boxes_pos);
+			console.log(x.player_pos);
+			console.log(x.direction);
+			console.log("========");
+		}	
 	}
 
 	// comprueba si el nodo es solución
 	isSolution(node){
-		for(x in node.boxes_pos){
-			if (x[0][1] !='X')
+		for(x of node.boxes_pos){
+			if (this.init_map[x[0]][x[1]]!='X')
 				return false;
 		}			
+		console.log(node.boxes_pos );
 		return true;
 	}
 
 	//opera todas las funciones ateriores para hallar la solución 
 	findSolution(){
-		var  solution="";
-		var  aux=0;
+		let solution="";
+		let aux=0;
 		for(let i=0; i<this.deep; i++){
 			console.log("expandiendo nodos en la profundidad "+i);
 			this.expandNodes();
+			console.log("profundidad creada");	
 			let issolution=false;
 			let len=this.nodes.length;
+			console.log("probando si hay una solución en el penúltimo nivel")
 			for (x of this.nodes[len -2]){ 
 				if(this.isSolution(x)){
-					solution=solution.concat(x.direction);
-					aux=x.father_id;
+					this.solution=x.direction;
+					this.aux=x.father_id;
 					issolution=true;
 					console.log("solución encontrada \n")
 					break;
 				}
 			}
-			if (issolution)
-				break;
-			console.log("profundidad creada");	
+			if (issolution){
+				//console.log( aux+solution);
+				return this.giveSolution(aux,solution);	
+			}
 		}
-		if (solution.length==0){
-			console.log("solucion no encontrada en la profundidad "+ this.deep);
-			return "";
-		}
-		for(let a=this.nodes.length-2; a >= 1; a--){
-			aux=this.nodes[a][aux].father_id;	
-			solution= this.nodes[a][aux].direction +solution;
+		console.log("no se encontro la solución en la profundidad "+this.deep );
+	}
+	giveSolution(f_id,direction){
+		let solution=direction;
+		let father=f_id;
+		//console.log(this.nodes);
+		for(let x=this.nodes.length -2 ; x>0;x--){
+			solution=this.nodes[x][father].direction+solution;
+			father= this.nodes[x][father].father_id;
 		}
 		return solution;
 	}

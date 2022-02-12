@@ -116,9 +116,9 @@ class BusquedaAmplitud{
 		let aux=[];
 		let father_idc=0;
 		let len=this.nodes[this.nodes.length -1].length;
+		let finalpos=this.nodes.length;
 		for (let w=0; w<len ;w++){
-			aux=aux.concat(this.generateChilds(this.nodes[len-1][w],father_idc));	
-			console.log(aux);
+			aux=aux.concat(this.generateChilds(this.nodes[finalpos-1][w],father_idc));	
 			father_idc++;
 		}
 		this.nodes=this.nodes.concat([aux]);
@@ -153,7 +153,7 @@ class BusquedaAmplitud{
 			}
 			if (issolution)
 				break;
-			console.log("profundidad "+ i);	
+			console.log("profundidad creada");	
 		}
 		if (solution.length==0){
 			console.log("solucion no encontrada en la profundidad "+ this.deep);

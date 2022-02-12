@@ -25,10 +25,10 @@ class ObtainInfo{
 		let playerPosFound=false;
 		this.data.forEach(element => 
 			{
-				if(element[1]!=',')
+				if(element[1]!=',' && element.length>1)
 					this.map.push(element);
 				else if (element[1]==',' && !playerPosFound){
-					playerPosFound=true;
+					 playerPosFound=true;
 					this.playerPos=element;
 				}else if (element[1]==','){
 					this.boxesPos.push(element);

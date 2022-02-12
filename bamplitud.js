@@ -88,31 +88,25 @@ class BusquedaAmplitud{
 
 
 	generateChilds(node, father_id){
-		let aux_return=new Array();
+		var aux_return=new Array();
 		let posx=node.player_pos[1];
 		let posy=node.player_pos[0];
 		
 		let uppos=this.generateDirection(posy,posx,'U');
-		let up=this.generateNode(node,uppos[0],uppos[1],father_id,'U');
-		aux_return.concat(up);
-		//console.log(up);
+		var  up=this.generateNode(node,uppos[0],uppos[1],father_id,'U');
+		aux_return=aux_return.concat(up);
 
 		let dpos=this.generateDirection(posy,posx,'D');
 		let down=this.generateNode(node,dpos[0],dpos[1],father_id,'D');
-		aux_return.concat(down);
-		console.log(down);
+		aux_return=aux_return.concat(down);
+
 		let lpos=this.generateDirection(posy,posx,'L');
 		let left=this.generateNode(node,lpos[0],lpos[1],father_id,'L');
-		aux_return.concat(left);
-		//console.log(left);
+		aux_return=aux_return.concat(left);
 
 		let rpos=this.generateDirection(posy,posx,'R');
 		let right=this.generateNode(node,rpos[0],rpos[1],father_id,'R');
-		aux_return.concat(right);
-		console.log(right);
-		//console.log(this.nodes.length);
-		//console.log(this.nodes[0].length);
-//		console.log(aux_return);
+		aux_return=aux_return.concat(right);
 		return aux_return;
 	}
 
@@ -121,18 +115,18 @@ class BusquedaAmplitud{
 		let aux=[];
 		let father_idc=0;
 		let len=this.nodes[this.nodes.length -1].length;
-		for (let w=0; w<len ;x++){
-			aux.concat(this.generateChilds(this.nodes[len-1][w],father_idc));	
-			console.log(aux);
+		for (let w=0; w<len ;w++){
+			aux=aux.concat(this.generateChilds(this.nodes[len-1][w],father_idc));	
+			console.log(len);
 			father_idc++;
 		}
-		this.nodes.concat([aux]);
+		this.nodes=this.nodes.concat([aux]);
 	}
 
 	// comprueba si el nodo es solución
 	isSolution(node){
 		for(x in node.boxes_pos){
-			if (x[0][1] !='W')
+			if (x[0][1] !='X')
 				return false;
 		}			
 		return true;
@@ -143,9 +137,8 @@ class BusquedaAmplitud{
 		let solution="";
 		let aux=0;
 		for(let i=0; i<this.deep; i++){
-			console.log("expandiendo nodos en la profundida "+ i);
+			console.log("expandiendo nodos en la profundida "+i);
 			this.expandNodes();
-			console.log("comenzando la profundidad"+ i);
 			for (let x in this.nodes[this.nodes.length -2]){ 
 				if(this.isSolution(x)){
 					solution+=x.direction;
@@ -154,7 +147,7 @@ class BusquedaAmplitud{
 					break;
 				}
 			}
-			if (solution.length==1)
+			if (solution.length!=0)
 				break;
 			console.log("profundidad "+ i);	
 		}
@@ -171,3 +164,4 @@ class BusquedaAmplitud{
 }
 
 module.exports=BusquedaAmplitud;
+ 

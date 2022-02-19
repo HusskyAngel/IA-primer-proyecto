@@ -4,12 +4,14 @@ const ProfundizacionIt = require('./ProfundizacionIt')
 
 
 
-info= new ObtainInfo("nivel2.txt")
-console.log(info.map);
-console.log(info.playerPos);
-console.log(info.boxesPos);
+info= new ObtainInfo("nivel1.txt")
 
 
-proiter = new ProfundizacionIt(info.map,info.playerPos,info.boxesPos)
-console.log(proiter.solve())
+
+proiter = new ProfundizacionIt(info.map,info.playerPos,info.boxesPos,info.goalPos,10)
+proiter.solve()
+
+
+
+
 

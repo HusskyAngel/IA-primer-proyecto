@@ -23,20 +23,42 @@ class ObtainInfo{
 	 }
 	
 	extractInfo(){
+
+		var node = new Object();
+		var node = {};
+
+		let col = 0;
 		let row = 0;
+
 		let playerPosFound=	false;
 		this.data.forEach(element =>
 			{
 				if(element[1]!==',' && element.length !== 0) {
 					//this.map.push(element);
 					this.map.push([]);
+
 					for( let i in element){
-						this.map[this.map.length - 1].push(element[i])
+						var node = {
+							_val: element[i],
+							_row: row,
+							_col: col,
+							_depth: 0,
+							_parent: "",
+							_boxmove: ""
+						};
+
+						this.map[row].push(node)
+						//this.map.push(node)
+
+						//this.map[this.map.length - 1].push([element[i]])
 
 						if(element.charAt(i) === 'X')
 							this.goalPos.push([row,parseInt(i)]);
+
+						col += 1;
 					}
 					row += 1;
+					col = 0;
 				}
 				else if (element[1]===',' && !playerPosFound){
 					playerPosFound=true;

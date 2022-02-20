@@ -1,4 +1,4 @@
-
+const Nodo = require('./Nodo')
 class ProfundizacionIt {
     constructor(map, inipos, boxes, goalpos, iterations) {
         this.map = map
@@ -7,43 +7,51 @@ class ProfundizacionIt {
         this.boxes = boxes
         this.expandedNodes = []
         this.iter = iterations
-        this.stack = []
+        this.stackN = []
     }
 
 
     solve() {
+        console.log(this.boxes)
+        console.log(this.inBox([2,3]))
         let nodoActual = new Nodo
         let count = 0
-        var initialNode = new Nodo(this.pos, this.boxes, "", 0)
-        console.log(initialNode)
-        this.stack.push(initialNode)
-        this.expandedNodes.push(initialNode)
+        var initialNode = new Nodo(this.pos, this.boxes, "", 0,0)
+        this.stackN.push(initialNode)
         var found = false
-        while(count < 10 ) {
-            nodoActual = this.stack.pop()
-           // console.log(nodoActual)
-            /*console.log(Array(nodoActual)[0])*/
-            if (!this.solved(this.boxes)) {
-                if (!this.alreadyExpanded(nodoActual.pos)) {
-                    if (nodoActual.deep < this.iter) {
-                        this.expandedNodes.push(nodoActual)
 
-                        var possible = [[pos[0]+1, pos[1]],    // Right
-                                         [pos[0]-1, pos[1]],   // Left
-                                         [pos[0], pos[1]+1],   // Down
-                                         [pos[0], pos[1]-1]]   // Up
+//      while(counter < 10){
+        while(this.stackN.length >0 ) {
+            //console.log(this.stackN)
+
+            nodoActual = this.stackN.pop()
+
+            if (!this.solved(this.boxes)) {
+                let pos = nodoActual.pos
+                let act = nodoActual.act
+                if (!this.alreadyExpanded(pos,act)) {
+                    if (nodoActual.deep < this.iter){
+                        this.expandedNodes.push(nodoActual)
+                        var possible = [[pos[0], pos[1]+1],    // Right
+                                         [pos[0], pos[1]-1],   // Left
+                                         [pos[0]+1, pos[1]],   // Down
+                                         [pos[0]-1, pos[1]]]   // Up
                         for(let i in possible) {
                             this.movement(pos,possible[i],nodoActual.deep)
                         }
+                    }else {
+                        continue
                     }
                 }
             } else {
-
+                console.log("here")
+                console.log(nodoActual)
                 found = true
                 this.expandedNodes.push(nodoActual)
                 this.printSolution(nodoActual)
                 break
             }
+
         count++
         }
 
@@ -51,29 +59,33 @@ class ProfundizacionIt {
     }
 
     movement(oldPos, newPos, deep) {
-        if (this.map[newPos[0]][newPos[1]] != 'W') {
+        if (this.map[newPos[0]][newPos[1]] != 'W' ) {
             if (this.inBox(newPos)) {
-                var nextPosBox = this.direction(oldPos, newPos)
+                var nextPosBox = this.direction(oldPos, newPos)[0]
                 if (this.canMove(nextPosBox)) {
-                    var newNode = new Nodo(newPos, this.box, oldPos, deep+1)
+                    console.log("movio")
+                    var newNode = new Nodo(newPos, this.box, oldPos, deep+1,this.direction(oldPos, newPos)[1])
 
                     this.stack.push(newNode)
-                    this.expandedNodes.push(newNode)
                     this.updateBox(newPos,nextPosBox)
                 }
             } else {
-                var newNode = new Nodo(newPos, this.boxes, oldPos, deep+1)
+                var newNode = new Nodo(newPos, this.boxes, oldPos, deep+1,0)
 
-                this.stack.push(newNode)
-                this.expandedNodes.push(newNode)
+                this.stackN.push(newNode)
+
             }
         }
     }
 
-    alreadyExpanded(nodoId){
-        for(let i in this.expandedNodes) {
 
-            if (JSON.stringify(this.expandedNodes[i].pos) === JSON.stringify(nodoId) ) {
+    alreadyExpanded(nodoId,nodoAct){
+        for(let i in this.expandedNodes) {
+            //console.log(this.expandedNodes[i].pos ,nodoId)
+           //console.log(this.expandedNodes[i].act,nodoAct)
+          //  console.log (this.equalArray(this.expandedNodes[i].pos ,nodoId) && this.equalArray(this.expandedNodes[i].act,nodoAct))
+            if (this.equalArray(this.expandedNodes[i].pos ,nodoId)
+                && this.equalArray(this.expandedNodes[i].act,nodoAct)) {
                 return true
             }
         }
@@ -82,7 +94,7 @@ class ProfundizacionIt {
 
     updateBox(pos, newPos){
         for(let i in this.boxes) {
-            if (JSON.stringify(this.boxes[i]) === JSON.stringify(pos) ) {
+            if (this.equalArray(this.boxes[i],pos) ) {
                 this.boxes[i] = newPos
             }
         }
@@ -91,14 +103,15 @@ class ProfundizacionIt {
 
     direction(oldPos,newPos){
         var subs = [oldPos[0]-newPos[0],oldPos[1]-newPos[1]]
-        return [newPos[0]+subs[0],subs[1]+newPos[1]]
+        return [[newPos[0]+subs[0],subs[1]+newPos[1]],subs]
     }
 
 
 
     inBox(pos){
         for(let i in this.boxes) {
-            if (JSON.stringify(this.boxes[i]) === JSON.stringify(pos) ) {
+            if (this.equalArray(this.boxes[i],pos)) {
+               // console.log(pos)
                 return true
             }
             return false
@@ -107,17 +120,21 @@ class ProfundizacionIt {
 
 
     canMove(pos){
+      //  console.log("*",pos)
+      //  console.log( !this.inBox(pos) && this.map[pos[0],pos[1]!='W'])
         return !this.inBox(pos) && this.map[pos[0],pos[1]!='W']
     }
 
-
+    equalArray(ar1,ar2){
+        return JSON.stringify(ar1) === JSON.stringify(ar2)
+    }
 
 
     solved(cajas) {
         for(let i in cajas){
             let flag = false
             for(let j in this.goalbox) {
-                if (JSON.stringify(cajas[i]) === JSON.stringify(this.goalbox[j]) ) {
+                if (this.equalArray(cajas[i],this.goalbox[j]) ) {
                     flag = true
                     break
                 }

@@ -1,9 +1,10 @@
 class Nodo{
-    constructor(pos,box,parent,deep) {
+    constructor(pos,box,parent,deep,act) {
         this.pos = pos
         this.box = box
-        this.parent = parent
+        this.parentN = parent
         this.deep = deep
+        this.act = act
     }
 }
 module.exports= Nodo;

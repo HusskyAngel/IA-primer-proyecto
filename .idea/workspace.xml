@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="60c7404a-0372-47f9-8a4d-8dcd68b031b8" name="Changes" comment="se manda el nodo">
+    <list default="true" id="60c7404a-0372-47f9-8a4d-8dcd68b031b8" name="Changes" comment="17:06">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nodo.js" beforeDir="false" afterPath="$PROJECT_DIR$/Nodo.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProfundizacionIt.js" beforeDir="false" afterPath="$PROJECT_DIR$/ProfundizacionIt.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nivel1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/nivel1.txt" afterDir="false" />
     </list>
     <list id="dadbd283-4b08-4c84-b2bd-8dcbc6cd069e" name="Changes by Equipo" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +78,7 @@
       <workItem from="1645056825870" duration="1623000" />
       <workItem from="1645194796044" duration="622000" />
       <workItem from="1645278207479" duration="23991000" />
-      <workItem from="1645364793928" duration="22981000" />
+      <workItem from="1645364793928" duration="25129000" />
     </task>
     <task id="LOCAL-00001" summary="13:03">
       <created>1645380213937</created>
@@ -100,7 +101,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645393275457</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="17:06">
+      <created>1645394774808</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1645394774808</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -139,6 +147,7 @@
     <MESSAGE value="13:03" />
     <MESSAGE value="15:47" />
     <MESSAGE value="se manda el nodo" />
-    <option name="LAST_COMMIT_MESSAGE" value="se manda el nodo" />
+    <MESSAGE value="17:06" />
+    <option name="LAST_COMMIT_MESSAGE" value="17:06" />
   </component>
 </project>

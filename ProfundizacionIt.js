@@ -14,7 +14,8 @@ class ProfundizacionIt {
     solve() {
         let nodoActual = new Nodo
         let count = 0
-        var initialNode = new Nodo(this.pos, this.boxes, "",0,0)
+        var initialNode = new Nodo(this.pos, this.boxes, "",0,"")
+        console.log(initialNode)
         this.stackN.push(initialNode)
         var found = false
 
@@ -30,6 +31,7 @@ class ProfundizacionIt {
             let pos = nodoActual.pos
             let deep = nodoActual.deep
             let boxes = nodoActual.boxes
+            let path = new String(nodoActual.pathN)
 
             if (!this.solved(boxes)) {
                 if (!this.alreadyExpanded(pos,boxes)) {
@@ -41,7 +43,7 @@ class ProfundizacionIt {
                                          [pos[0]+1, pos[1]],   // Down
                                          [pos[0]-1, pos[1]]]   // Up
                         for(let i in possible) {
-                            this.movement(pos,deep,boxes,possible[i],i)
+                            this.movement(pos,deep,boxes,possible[i],path)
                         }
                     }else {
                         continue
@@ -59,21 +61,40 @@ class ProfundizacionIt {
         }
     }
 
-    movement(pos,deep,boxes, newPos,ite) {
+    movement(pos,deep,boxes, newPos,path) {
+        var newPath = path
+        var choice = this.decodeMove(pos,newPos)
         if (this.map[newPos[0]][newPos[1]] != 'W' ) {
             if (this.inBox(newPos,boxes)) {
              //   console.log("pos man ",newPos)
                 var nextPosBox = this.direction(pos, newPos)
              //   console.log("pos box ", nextPosBox)
                 if (this.canMove(nextPosBox,boxes)) {
-                    var newNode = new Nodo(newPos, this.updateBox(newPos,nextPosBox,boxes), pos, deep+1,(deep+1)*(ite+1))
+                    var newNode = new Nodo(newPos, this.updateBox(newPos,nextPosBox,boxes), pos, deep+1,newPath+choice)
                     this.stackN.push(newNode)
                 }
             } else {
-                var newNode = new Nodo(newPos, boxes, pos, deep+1)
+                var newNode = new Nodo(newPos, boxes, pos, deep+1,newPath+choice)
                 this.stackN.push(newNode)
             }
         }
+    }
+
+    decodeMove(oldPos,newPos){
+        switch(-oldPos[0]+newPos[0]){
+            case -1:
+                return "U"
+            case 1:
+                return "D"
+        }
+        switch(-oldPos[1]+newPos[1]){
+            case -1:
+                return "L"
+            case 1:
+                return "R"
+        }
+
+
     }
 
 

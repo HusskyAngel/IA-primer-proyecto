@@ -14,34 +14,31 @@ class ProfundizacionIt {
     solve() {
         let nodoActual = new Nodo
         let count = 0
-        var initialNode = new Nodo(this.pos, this.boxes, "", 0)
+        var initialNode = new Nodo(this.pos, this.boxes, "",0)
         this.stackN.push(initialNode)
         var found = false
 
 //      while(counter < 10){
         while(this.stackN.length >0 ) {
             nodoActual = this.stackN.pop()
-            console.log("/*")
+/*            console.log("/*")
             for(let i in this.stackN){
                 console.log(this.stackN[i])
             }
-            console.log("*/")
+            console.log("*/
 
             if (!this.solved(this.boxes)) {
                 let pos = nodoActual.pos
-                let act = nodoActual.act
-
-                if (!this.alreadyExpanded(pos,act)) {
-
+                if (!this.alreadyExpanded(pos,nodoActual.boxes)) {
                     if (nodoActual.deep < this.iter){
-                        console.log("Actual  :",nodoActual)
                         this.expandedNodes.push(nodoActual)
+                        console.log(nodoActual)
                         var possible = [[pos[0], pos[1]+1],    // Right
                                          [pos[0], pos[1]-1],   // Left
                                          [pos[0]+1, pos[1]],   // Down
                                          [pos[0]-1, pos[1]]]   // Up
                         for(let i in possible) {
-                            this.movement(nodoActual,possible[i])
+                            this.movement(nodoActual.pos,nodoActual.deep,nodoActual.boxes,possible[i])
                         }
                     }else {
                         continue
@@ -59,18 +56,18 @@ class ProfundizacionIt {
         }
     }
 
-    movement(nodo, newPos) {
+    movement(pos,deep,boxes, newPos) {
         if (this.map[newPos[0]][newPos[1]] != 'W' ) {
-            if (this.inBox(newPos,nodo.box)) {
+            if (this.inBox(newPos,boxes)) {
              //   console.log("pos man ",newPos)
-                var nextPosBox = this.direction(nodo.pos, newPos)
+                var nextPosBox = this.direction(pos, newPos)
              //   console.log("pos box ", nextPosBox)
-                if (this.canMove(nextPosBox,nodo.box)) {
-                    var newNode = new Nodo(newPos, this.updateBox(newPos,nextPosBox,nodo.box), nodo.pos, nodo.deep+1)
+                if (this.canMove(nextPosBox,boxes)) {
+                    var newNode = new Nodo(newPos, this.updateBox(newPos,nextPosBox,boxes), pos, deep+1)
                     this.stackN.push(newNode)
                 }
             } else {
-                var newNode = new Nodo(newPos, nodo.box, nodo.pos, nodo.deep+1)
+                var newNode = new Nodo(newPos, boxes, pos, deep+1)
                 this.stackN.push(newNode)
             }
         }

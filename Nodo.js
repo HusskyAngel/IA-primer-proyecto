@@ -1,7 +1,7 @@
 class Nodo{
     constructor(pos,box,parent,deep) {
         this.pos = pos
-        this.box = box
+        this.boxes = box
         this.parentN = parent
         this.deep = deep
 

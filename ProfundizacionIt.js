@@ -12,8 +12,6 @@ class ProfundizacionIt {
 
 
     solve() {
-        console.log(this.boxes)
-        console.log(this.inBox([2,3]))
         let nodoActual = new Nodo
         let count = 0
         var initialNode = new Nodo(this.pos, this.boxes, "", 0,0)
@@ -22,15 +20,15 @@ class ProfundizacionIt {
 
 //      while(counter < 10){
         while(this.stackN.length >0 ) {
-            //console.log(this.stackN)
-
             nodoActual = this.stackN.pop()
+
 
             if (!this.solved(this.boxes)) {
                 let pos = nodoActual.pos
                 let act = nodoActual.act
                 if (!this.alreadyExpanded(pos,act)) {
                     if (nodoActual.deep < this.iter){
+                        console.log(nodoActual)
                         this.expandedNodes.push(nodoActual)
                         var possible = [[pos[0], pos[1]+1],    // Right
                                          [pos[0], pos[1]-1],   // Left
@@ -51,29 +49,25 @@ class ProfundizacionIt {
                 this.printSolution(nodoActual)
                 break
             }
-
         count++
         }
-
-
     }
 
     movement(oldPos, newPos, deep) {
         if (this.map[newPos[0]][newPos[1]] != 'W' ) {
             if (this.inBox(newPos)) {
+                console.log("pos man ",newPos)
                 var nextPosBox = this.direction(oldPos, newPos)[0]
+                console.log("pos box ", nextPosBox)
                 if (this.canMove(nextPosBox)) {
-                    console.log("movio")
-                    var newNode = new Nodo(newPos, this.box, oldPos, deep+1,this.direction(oldPos, newPos)[1])
 
-                    this.stack.push(newNode)
+                    var newNode = new Nodo(newPos, this.boxes, oldPos, deep+1,this.direction(oldPos, newPos)[1])
+                    this.stackN.push(newNode)
                     this.updateBox(newPos,nextPosBox)
                 }
             } else {
                 var newNode = new Nodo(newPos, this.boxes, oldPos, deep+1,0)
-
                 this.stackN.push(newNode)
-
             }
         }
     }
@@ -102,7 +96,7 @@ class ProfundizacionIt {
 
 
     direction(oldPos,newPos){
-        var subs = [oldPos[0]-newPos[0],oldPos[1]-newPos[1]]
+        var subs = [-oldPos[0]+newPos[0],-oldPos[1]+newPos[1]]
         return [[newPos[0]+subs[0],subs[1]+newPos[1]],subs]
     }
 
@@ -111,18 +105,18 @@ class ProfundizacionIt {
     inBox(pos){
         for(let i in this.boxes) {
             if (this.equalArray(this.boxes[i],pos)) {
-               // console.log(pos)
                 return true
             }
-            return false
         }
+        return false
     }
 
 
     canMove(pos){
-      //  console.log("*",pos)
-      //  console.log( !this.inBox(pos) && this.map[pos[0],pos[1]!='W'])
-        return !this.inBox(pos) && this.map[pos[0],pos[1]!='W']
+        console.log("in box ", !(this.inBox(pos)))
+        console.log("mapa ", (this.map[pos[0]][pos[1]] != 'W'),"  " )
+
+        return !(this.inBox(pos)) && (this.map[pos[0]][pos[1]] != 'W')
     }
 
     equalArray(ar1,ar2){

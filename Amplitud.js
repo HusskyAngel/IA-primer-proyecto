@@ -13,21 +13,13 @@ class Amplitud {
 
     solve() {
         let nodoActual = new Nodo
-        let count = 0
         var initialNode = new Nodo(this.pos, this.boxes, "",0,"")
-        console.log(initialNode)
-        this.stackN.push(initialNode)
-        var found = false
 
-//      while(counter < 10){
+        this.stackN.push(initialNode)
+
         while(this.stackN.length >0 ) {
             nodoActual = this.stackN.shift()
-    /*        console.log("/*")
-            for(let i in this.stackN){
-                console.log(this.stackN[i])
-            }
-            console.log("--/")
-    */
+
             let pos = nodoActual.pos
             let deep = nodoActual.deep
             let boxes = nodoActual.boxes
@@ -46,19 +38,12 @@ class Amplitud {
                         for(let i in possible) {
                             this.movement(pos,deep,boxes,possible[i],path)
                         }
-                    }else {
-                        continue
                     }
                 }
             } else {
-                console.log("here")
-                console.log(nodoActual)
-                found = true
-                this.expandedNodes.push(nodoActual)
-                this.printSolution(nodoActual)
+                console.log(nodoActual.pathN)
                 break
             }
-        count++
         }
     }
 
@@ -67,9 +52,7 @@ class Amplitud {
         var choice = this.decodeMove(pos,newPos)
         if (this.map[newPos[0]][newPos[1]] != 'W' ) {
             if (this.inBox(newPos,boxes)) {
-             //   console.log("pos man ",newPos)
                 var nextPosBox = this.direction(pos, newPos)
-             //   console.log("pos box ", nextPosBox)
                 if (this.canMove(nextPosBox,boxes)) {
                     var newNode = new Nodo(newPos, this.updateBox(newPos,nextPosBox,boxes), pos, deep+1,newPath+choice)
                     this.stackN.push(newNode)
@@ -101,9 +84,6 @@ class Amplitud {
 
     alreadyExpanded(nodoId,nodoBoxes){
         for(let i in this.expandedNodes) {
-            //console.log(this.expandedNodes[i].pos ,nodoId)
-           //console.log(this.expandedNodes[i].act,nodoAct)
-          //  console.log (this.equalArray(this.expandedNodes[i].pos ,nodoId) && this.equalArray(this.expandedNodes[i].act,nodoAct))
             if (this.equalArray(this.expandedNodes[i].pos ,nodoId)
                 && this.equalArray(this.expandedNodes[i].boxes,nodoBoxes)) {
                 return true
@@ -141,9 +121,6 @@ class Amplitud {
 
 
     canMove(pos,boxes){
-       // console.log("in box ", !(this.inBox(pos,boxes)))
-      //  console.log("mapa ", (this.map[pos[0]][pos[1]] != 'W'),"  " )
-
         return !(this.inBox(pos,boxes)) && (this.map[pos[0]][pos[1]] != 'W')
     }
 

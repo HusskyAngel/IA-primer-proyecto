@@ -74,7 +74,7 @@ class BusquedaAmplitud{
 				}
 				let expanded_aux=[...node.expanded]
 				expanded_aux=expanded_aux.concat( [[posy,posx]]);
-				return [new CurrentPos([posy,posx],a_return,father,direction,expanded_aux)];
+				return [new CurrentPos([posy,posx],a_return,father,direction,[])];
 			}else
 				return [];
 		}
@@ -87,6 +87,7 @@ class BusquedaAmplitud{
 		}
 	}
 
+	//descarta ramas para evitar bucles 
 	discardBranch(node){
 		if (node.length ==0)
 			return [];
@@ -107,6 +108,7 @@ class BusquedaAmplitud{
 	}
 
 
+	//genera los hijos de un nodo en especifico 
 	generateChilds(node, father_id){
 		var aux_return=new Array();
 		let posx=node.player_pos[1];
@@ -130,7 +132,7 @@ class BusquedaAmplitud{
 		return aux_return;
 	}
 
-	//expande los nodos de el último nivel de el arbol 
+	//expande los nodos del último nivel del arbol 
 	expandNodes(){
 		let aux=[];
 		let father_idc=0;

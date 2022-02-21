@@ -1,16 +1,20 @@
 const Nodo = require('./Nodo')
-class Profundidad {
+
+//DFS - Depth First Search
+class DFSAlgorithm {
+
+    //Constructor to initialize this object
     constructor(map, inipos, boxes, goalpos, iterations) {
-        this.map = map
-        this.pos = [inipos[0], inipos[1]]
-        this.goalbox = goalpos
-        this.boxes = boxes
-        this.expandedNodes = []
-        this.iter = iterations
-        this.stackN = []
+        this.map = map                      //World map
+        this.pos = [inipos[0], inipos[1]]   //Player positions
+        this.goalbox = goalpos              //Goals positions
+        this.boxes = boxes                  //Boxes positions
+        this.expandedNodes = []             //List of expanded nodes
+        this.iter = iterations              //Number to iterations
+        this.stackN = []                    //Queue of inserted nodes
     }
 
-
+    //Function to apply DFS Algorithm logic
     solve() {
         let nodoActual = new Nodo
         let initialNode = new Nodo(this.pos, this.boxes, "",0,"")
@@ -27,10 +31,12 @@ class Profundidad {
                     if (nodoActual.deep < this.iter){
                         this.expandedNodes.push(nodoActual)
 
-                        var possible = [[pos[0], pos[1]+1],    // Right
-                                         [pos[0], pos[1]-1],   // Left
-                                         [pos[0]+1, pos[1]],   // Down
-                                         [pos[0]-1, pos[1]]]   // Up
+                        var possible = [[pos[0], pos[1]+1],     //RIGHT
+                                         [pos[0], pos[1]-1],    //LEFT
+                                         [pos[0]+1, pos[1]],    //DOWN
+                                         [pos[0]-1, pos[1]]     //UP
+                        ]
+
                         for(let i in possible) {
                             this.movement(pos,deep,boxes,possible[i],path)
                         }
@@ -46,6 +52,7 @@ class Profundidad {
         return 0
     }
 
+    //Auxiliary function to expand the node and insert to stack (Generate childs of node)
     movement(pos,deep,boxes, newPos,path) {
         var newPath = path
         var choice = this.decodeMove(pos,newPos)
@@ -63,6 +70,7 @@ class Profundidad {
         }
     }
 
+    //Auxiliary function to extract move from a position change [UP(U), DOWN(D), LEFT(L), RIGHT(R)]
     decodeMove(oldPos,newPos){
         switch(-oldPos[0]+newPos[0]){
             case -1:
@@ -77,6 +85,8 @@ class Profundidad {
                 return "R"
         }
     }
+
+    //Auxiliary function to verify if node was already expanded before (Consider the node position and boxes configuration positions [map state])
     alreadyExpanded(nodoId,nodoBoxes){
         for(let i in this.expandedNodes) {
             if (this.equalArray(this.expandedNodes[i].pos ,nodoId)
@@ -86,6 +96,8 @@ class Profundidad {
         }
         return false
     }
+
+    //Auxiliary function to update the box position if the box was moved
     updateBox(pos, newPos,boxes){
         let box = [...boxes]
         for(let i in box) {
@@ -95,10 +107,14 @@ class Profundidad {
         }
         return box
     }
+
+    //Auxiliary function to calculate the new box position
     direction(oldPos,newPos){
         var subs = [-oldPos[0]+newPos[0],-oldPos[1]+newPos[1]]
         return [newPos[0]+subs[0],subs[1]+newPos[1]]
     }
+
+    //Auxiliary function to verify if in the actual position there is a box
     inBox(pos,boxes){
         for(let i in boxes) {
             if (this.equalArray(boxes[i],pos)) {
@@ -107,12 +123,18 @@ class Profundidad {
         }
         return false
     }
+
+    //Auxiliary function to verify if box could be move to a free position (without box collisions and without walls)
     canMove(pos,boxes){
         return !(this.inBox(pos,boxes)) && (this.map[pos[0]][pos[1]] != 'W')
     }
+
+    //Auxiliary function to convert two objects (ar1,ar2) into a string and compare both
     equalArray(ar1,ar2){
         return JSON.stringify(ar1) === JSON.stringify(ar2)
     }
+
+    //Auxiliary function to verify if boxes are located on goal positions to finish the search
     solved(cajas) {
         for(let i in cajas){
             let flag = false
@@ -129,4 +151,4 @@ class Profundidad {
         return true
     }
 }
-module.exports= Profundidad;
+module.exports= DFSAlgorithm;

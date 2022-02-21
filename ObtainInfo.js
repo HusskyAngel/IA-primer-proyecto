@@ -1,16 +1,19 @@
-const fs = require('fs')
+const fs = require('fs') //Common use for the File System module
 
+//Class for read file(.txt) and extract the information
 class ObtainInfo{
 
 	constructor(file){
-		this.file=file;
+		this.file=file;					//Input file
 		this.data=this.readFile();
-		this.map=[];
-		this.boxesPos=[];
-		this.goalPos=[];
-		this.playerPos=[];
+		this.map=[]; 					//World map
+		this.boxesPos=[]; 				//Boxes positions
+		this.goalPos=[]; 				//Goals positions
+		this.playerPos=[]; 				//Player positions
 		this.extractInfo();
 	}
+
+	//Read file
 	readFile(){
 		try {
 			let data = fs.readFileSync(this.file, 'utf8');
@@ -22,6 +25,7 @@ class ObtainInfo{
 		}
 	}
 
+	//Extract info file, and construct our data (map,boxesPos,goalPos,playerPos)
 	extractInfo(){
 		let row = 0;
 		let playerPosFound=	false;
@@ -51,22 +55,6 @@ class ObtainInfo{
 			}
 		});
 	}
-
-	/*solved(cajas) {
-		for(let i in cajas){
-			let flag = false
-			for(let j in this.finbox) {
-				if (JSON.stringify(cajas[i]) === JSON.stringify(this.finbox[j]) ) {
-					flag = true
-					break
-				}
-			}
-			if(flag == false){
-				return false
-			}
-		}
-		return true
-	}*/
 }
 
 module.exports= ObtainInfo;
